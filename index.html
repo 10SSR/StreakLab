@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Streak Lab | Daily Habit Tracker & Leagues</title>
+    
+    <!-- Meta & SEO -->
+    <meta name="description" content="Competitive daily habit tracker with check-in timers, points, personal rewards, and friend leagues." />
+    <meta name="theme-color" content="#070913" />
+    <meta name="color-scheme" content="dark light" />
+    
+    <!-- iOS PWA meta -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="StreakLab" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    
+    <!-- Web Manifest & Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-[#070913] text-slate-100 antialiased selection:bg-purple-500 selection:text-white min-h-screen overflow-x-hidden font-sans">
+    <div id="root"></div>
+    <noscript>
+      <div style="padding: 2rem; text-align: center; color: white;">
+        <h1>Streak Lab</h1>
+        <p>Please enable JavaScript to run this Progressive Web App.</p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

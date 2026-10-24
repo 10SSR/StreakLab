@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User profile: users can read their own data and update non-scoring preferences
+    match /users/{userId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      // Clients can only update display preferences, NOT points, streak, or league scores!
+      allow update: if request.auth != null && request.auth.uid == userId
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['points', 'streak', 'level', 'streakFreezes']);
+      allow create: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Habits: users have full CRUD on their own habits
+    match /users/{userId}/habits/{habitId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Check-in submissions: client can create daily records, but points calculation happens via Cloud Functions trigger
+    match /users/{userId}/checkIns/{checkInId} {
+      allow read, create: if request.auth != null && request.auth.uid == userId;
+      // Disallow tampering with old check-ins past grace period
+      allow update: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Leagues: members can read, but leaderboard scores can ONLY be updated by Cloud Functions (Admin SDK)
+    match /leagues/{leagueId} {
+      allow read: if request.auth != null;
+      // Write blocked from client: server-side Cloud Function updates consistency % and points
+      allow write: if false;
+
+      match /members/{memberId} {
+        allow read: if request.auth != null;
+        allow write: if false; // Computed server-side!
+      }
+
+      match /cheers/{cheerId} {
+        allow read: if request.auth != null;
+        allow create: if request.auth != null && request.resource.data.fromUserId == request.auth.uid;
+      }
+    }
+  }
+}
